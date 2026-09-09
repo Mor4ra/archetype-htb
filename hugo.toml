@@ -1,4 +1,4 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://Mor4ra.github.io/archetype-htb'
 locale = 'en-us'
-title = 'My New Hugo Project'
+title = 'Responder, windows'
 theme = 'blowfish'
