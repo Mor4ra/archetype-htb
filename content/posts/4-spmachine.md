@@ -2,7 +2,7 @@
 title: Responder, Windows
 date: 09/10/2026
 tags: ["Overview", "Enumeration", "Exploitation", "Cracking the Hash", "Gaining Access", "Post-Exploitation", "Conclusion"]
-draft: "false"
+draft: false
 ---
 
 ### Responder | Windows
