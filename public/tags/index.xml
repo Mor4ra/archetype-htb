@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on </title>
+    <link>http://localhost:1313/archetype-htb/tags/</link>
+    <description>Recent content in Tags on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>© 2026 </copyright>
+    <lastBuildDate>Thu, 10 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/archetype-htb/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Conclusion</title>
+      <link>http://localhost:1313/archetype-htb/tags/conclusion/</link>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/archetype-htb/tags/conclusion/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Cracking the Hash</title>
+      <link>http://localhost:1313/archetype-htb/tags/cracking-the-hash/</link>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/archetype-htb/tags/cracking-the-hash/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Enumeration</title>
+      <link>http://localhost:1313/archetype-htb/tags/enumeration/</link>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/archetype-htb/tags/enumeration/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Exploitation</title>
+      <link>http://localhost:1313/archetype-htb/tags/exploitation/</link>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/archetype-htb/tags/exploitation/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Gaining Access</title>
+      <link>http://localhost:1313/archetype-htb/tags/gaining-access/</link>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/archetype-htb/tags/gaining-access/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Overview</title>
+      <link>http://localhost:1313/archetype-htb/tags/overview/</link>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/archetype-htb/tags/overview/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Post-Exploitation</title>
+      <link>http://localhost:1313/archetype-htb/tags/post-exploitation/</link>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/archetype-htb/tags/post-exploitation/</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

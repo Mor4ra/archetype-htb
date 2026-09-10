@@ -1,5 +1,5 @@
 ---
-title: Responder, Windows
+title: Responder | Windows
 date: 2026-09-10
 tags: ["Overview", "Enumeration", "Exploitation", "Cracking the Hash", "Gaining Access", "Post-Exploitation", "Conclusion"]
 draft: false
