@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title></title>
+    <title>mor4ra on </title>
     <link>http://localhost:1313/archetype-htb/</link>
-    <description>Recent content on </description>
+    <description>Recent content in mor4ra on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>© 2026 </copyright>
     <lastBuildDate>Thu, 10 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/archetype-htb/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Responder, Windows</title>
+      <title>Responder | Windows</title>
       <link>http://localhost:1313/archetype-htb/posts/4-spmachine/</link>
       <pubDate>Thu, 10 Sep 2026 00:00:00 +0000</pubDate>
       

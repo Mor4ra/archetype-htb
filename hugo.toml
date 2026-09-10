@@ -1,2 +1,8 @@
-baseURL = "https://Mor4ra.github.io/archetype-htb/"
+baseURL = "https://mor4ra.github.io/archetype-htb/"
 theme = "blowfish"
+[params.homepage]
+  layout = "page"
+  showRecent = true
+  showRecentItems = 5
+  showMoreLink = true
+  showMoreLinkDest = "/posts"
