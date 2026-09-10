@@ -5,9 +5,9 @@ tags: ["Overview", "Enumeration", "Exploitation", "Cracking the Hash", "Gaining 
 draft: false
 ---
 
-### Responder | Windows
+# Responder | Windows
 
-#### *Overview*
+## *Overview*
 Responder is a windows machine(server to be specific) that showcases how a file inclusion vulnerability can be leveraged to capture user credentials via Responder and use them to get a remote PowerShell session on the machine.
 
 A file inclusion vulnerability allows an attacker to access sensitive files on a server by manipulating user input(often a URL parameter), besides reading files, it can lead to code execution or forced outbound connections. 
@@ -34,7 +34,7 @@ NetNTLMv2 is the network form of the NTLMv2 authentication protocol, instead of 
 The captured blob never contains the password itself but it's a password-derived proof that can be attacked offline.
 We then crack the NetNTLMv2 response using John the Ripper to extract the plaintext password(caveat: John the Ripper works if the password is weak), we'll then use this password to authenticate to a remote service(WinRM via Evil-WinRM) and get a terminal session on the machine.
 
-#### *Enumeration*
+## *Enumeration*
 
 ```Bash
 ┌──(kali㉿kali)-[~/Downloads]
@@ -99,7 +99,7 @@ What is the name of the URL parameter which is used to load different language v
 - the default URL parameter(according to Claude) should be `lang` or `language` but that's not answer in this case. Looking at the options on top of the website, we see a language switcher and when selecting another language, we can observe that the URL parameter to load a different language option is `page`.
 *This is actually interesting, `page` could be our vulnerable parameter, we could insert our 'SMB payload' instead of a valid language to make the windows server authenticate to my kali machine.*
 
-#### *Exploitation*
+## *Exploitation*
 Now that we have identified our vulnerable URL parameter, it's time to trigger a file inclusion on the target.
 
 ![[ResponderBadParam.png]]
@@ -156,7 +156,7 @@ When the windows Server tries to access the path, responder prints the user's(wh
 ```
 
 
-#### *Cracking the Hash*
+## *Cracking the Hash*
 We have the hash, to attempt retrieving the password in plaintext, we'll use John the Ripper. 
 
 ```Bash
@@ -174,7 +174,7 @@ Session completed.
 
 John cracked the hash. The `Administrator`'s password is `badminton`.
 
-#### *Gaining Access*
+## *Gaining Access*
 Looking back at an nmap scan we did earlier, we saw `wsman` listening on port 5895. This service allows administrators to control windows machines remotely. Since this service is open and we have the administrator's password, we can gain a direct path to a remote terminal.
 To do so, we'll use the `evil-winrm` utility.
 
@@ -196,7 +196,7 @@ responder\administrator
 
 Our connection was successful and we're dropped into a remote PowerShell Prompt on the target. 
 
-#### *Post-Exploitation*
+## *Post-Exploitation*
 Now that we have access a command line session on the web server, we can look around for valuable information. We can check how many users are there besides `Administrator`
 
 ```PowerShell
@@ -234,5 +234,5 @@ Now that we have it, we can open it and submit it.
 ea81b7afddd03efaa0945333ed147fac 
 ```
 
-#### *Conclusion*
+## *Conclusion*
 This exercise showed how a single file inclusion flaw can lead to full system compromise. By abusing the unsanitized page parameter, the Windows server was tricked into connecting to a rogue SMB server (Responder) via a UNC path. The server automatically authenticated, leaking a NetNTLMv2 challenge/response for the Administrator account. The weak password was cracked with John the Ripper, and the exposed WinRM service (5985) was then used with Evil-WinRM to obtain a remote PowerShell session with Administrator privileges.
