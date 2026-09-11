@@ -1,5 +1,13 @@
 baseURL = "https://mor4ra.github.io/archetype-htb/"
 theme = "blowfish"
+
+[[menu.main]]
+  name = "Home"
+  pageRef = "/"
+  weight = 1
+  [menu.main.params]
+    icon = "home"
+
 [params.homepage]
   layout = "page"
   showRecent = true

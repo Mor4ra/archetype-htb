@@ -4,15 +4,114 @@
   max-width: 100ch !important;
 }
 
+:root {
+  --bg: rgb(99.608% 94.902% 94.902%);
+  --fg: rgb(49.804% 11.373% 11.373%);
+  --bg-alt: var(--fg);
+  --fg-alt: var(--bg);
+}
+
+html.dark {
+  --bg: rgb(59, 208, 206);
+}
+
+.combo-1 {
+  color: var(--fg);
+  background-color: var(--bg);
+}
+
+.combo-2 {
+  color: var(--fg-alt);
+  background-color: var(--bg-alt);
+}
+
 body {
+  background-color: var(--bg);
+  color: var(--fg);
   background-image: repeating-linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.05) 0px,
-    rgba(255, 255, 255, 0.05) 1px,
+    rgba(127, 29, 29, 0.05) 0px,
+    rgba(127, 29, 29, 0.05) 1px,
     transparent 1px,
     transparent 10px
   );
   background-attachment: fixed;
+}
+
+header {
+  position: relative;
+  padding-bottom: 1rem;
+  margin-bottom: 0;
+}
+
+/* Full-bleed top line: breaks out of the content column to span the
+   viewport edge-to-edge, while header itself stays the normal width. */
+header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+/* Prevent the 100vw full-bleed line from introducing a horizontal
+   scrollbar on pages where the viewport has a scrollbar of its own. */
+html {
+  overflow-x: hidden;
+}
+
+main#main-content {
+  position: relative;
+  margin-top: 0;
+  border-left: 1px solid rgba(128, 128, 128, 0.3);
+  border-right: 1px solid rgba(128, 128, 128, 0.3);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+  padding: 0 2rem 2rem;
+}
+
+/* Blowfish's typography uses explicit light/white text-color classes for
+   its dark theme (higher specificity than the inherited body color), so
+   they need an explicit override to read against the background.
+   Excludes anything inside <pre> so syntax-highlighting token colors
+   aren't flattened to a single color. */
+main#main-content :is(
+  h1, h2, h3, h4, h5, h6,
+  p, li, span, div, a,
+  time, strong, em, blockquote,
+  td, th, label, small
+):not(pre *) {
+  color: var(--fg) !important;
+}
+
+/* Soften the code block background — was near-black, making it hard to
+   perceive against the surrounding page. */
+main#main-content pre,
+main#main-content .highlight,
+main#main-content .highlight pre,
+main#main-content .chroma {
+  background-color: #2f2b28 !important;
+}
+
+/* Small stubs so the vertical borders visibly cross the top line at the
+   corners instead of stopping flush or short of it. */
+main#main-content::before,
+main#main-content::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  width: 1px;
+  height: 6px;
+  background: rgba(128, 128, 128, 0.3);
+}
+
+main#main-content::before {
+  left: -1px;
+}
+
+main#main-content::after {
+  right: -1px;
 }
 
 /* Site-wide Space Mono font */

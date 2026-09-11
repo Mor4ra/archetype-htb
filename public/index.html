@@ -104,8 +104,8 @@
   <link
     type="text/css"
     rel="stylesheet"
-    href="/archetype-htb/css/main.bundle.min.83f6a01d363f677b5daf9cb4a671c69f4c270b3cd3f8048310b43dd0b9a6a009c932c03f7011bf2f8c2fa58db4e42ee25d1e471ebc84564dead2c6efd96916e1.css"
-    integrity="sha512-g/agHTY/Z3tdr5y0pnHGn0wnCzzT&#43;ASDELQ90LmmoAnJMsA/cBG/L4wvpY205C7iXR5HHryEVk3q0sbv2WkW4Q==">
+    href="/archetype-htb/css/main.bundle.min.ae21415e03391c43ac241e0c7c222a71786d48f2b7ed35b7076d0cb2ed0285d14e56b063f7b5788aa085e37298c302557d251930a0a9ab191c218ff1e3601b65.css"
+    integrity="sha512-riFBXgM5HEOsJB4MfCIqcXhtSPK37TW3B20Msu0ChdFOVrBj97V4iqCF43KYwwJVfSUZMKCpqxkcIY/x42AbZQ==">
 
   
   
@@ -289,6 +289,26 @@
     <div class="hidden md:flex">
       <nav aria-label="Main menu" class="flex items-center gap-x-5 h-12">
   
+    
+      
+  
+    <a
+      href="/archetype-htb/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="Home"
+      title="mor4ra">
+      
+      
+        <span class="text-sm font-medium break-normal">
+          Home
+        </span>
+      
+    </a>
+  
+
+    
+  
 
   
 
@@ -369,6 +389,75 @@
     </button>
   
 
+  
+    <input type="checkbox" id="mobile-menu-toggle" autocomplete="off" class="hidden peer">
+    <label
+      for="mobile-menu-toggle"
+      tabindex="0"
+      role="button"
+      aria-expanded="false"
+      aria-controls="mobile-menu-dialog"
+      aria-label="Main menu"
+      class="flex items-center justify-center cursor-pointer bf-icon-color-hover">
+      <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+</span>
+    </label>
+
+    <div
+      id="mobile-menu-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Main menu"
+      style="scrollbar-gutter: stable;"
+      class="z-50 invisible overflow-y-auto opacity-0 transition-[opacity,visibility] duration-300 peer-checked:visible peer-checked:opacity-100
+      
+        fixed inset-0 px-6 py-20 bg-neutral-50/97 dark:bg-neutral-900/99
+      
+      bf-scrollbar">
+      <label
+        for="mobile-menu-toggle"
+        tabindex="0"
+        role="button"
+        aria-expanded="false"
+        aria-controls="mobile-menu-dialog"
+        class="fixed end-8 top-5 z-50 h-12 w-12 rounded-full flex items-center justify-center cursor-pointer select-none bf-icon-color-hover border bf-border-color bf-border-color-hover bg-neutral-50 dark:bg-neutral-900">
+        <span class="sr-only">Close menu</span>
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </label>
+      <nav
+        aria-label="Mobile menu"
+        class="mx-auto max-w-md space-y-6">
+        
+  
+    
+    <div class="px-2">
+      <div class="flex items-center gap-4">
+        <a
+          href="/archetype-htb/"
+          aria-label="Home"
+          
+          class="flex grow items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+          
+          <span title="mor4ra" class="text-2xl font-bold tracking-tight">
+            Home
+          </span>
+        </a>
+        
+      </div>
+
+      
+    </div>
+  
+
+        
+  
+
+        
+  
+
+      </nav>
+    </div>
   
 </div>
 
