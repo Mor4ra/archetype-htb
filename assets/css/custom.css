@@ -9,10 +9,17 @@
   --fg: rgb(49.804% 11.373% 11.373%);
   --bg-alt: var(--fg);
   --fg-alt: var(--bg);
+  --hatch: rgba(127, 29, 29, 0.05);
+  --code-bg: #2f2b28;
+  --line: rgba(128, 128, 128, 0.3);
 }
 
 html.dark {
-  --bg: rgb(59, 208, 206);
+  --bg: rgb(8, 46, 45);
+  --fg: rgb(220, 245, 244);
+  --hatch: rgba(255, 255, 255, 0.06);
+  --code-bg: #0d2b2a;
+  --line: rgba(180, 220, 218, 0.25);
 }
 
 .combo-1 {
@@ -30,8 +37,8 @@ body {
   color: var(--fg);
   background-image: repeating-linear-gradient(
     135deg,
-    rgba(127, 29, 29, 0.05) 0px,
-    rgba(127, 29, 29, 0.05) 1px,
+    var(--hatch) 0px,
+    var(--hatch) 1px,
     transparent 1px,
     transparent 10px
   );
@@ -53,7 +60,7 @@ header::after {
   left: 50%;
   width: 100vw;
   transform: translateX(-50%);
-  border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+  border-bottom: 1px solid var(--line);
 }
 
 /* Prevent the 100vw full-bleed line from introducing a horizontal
@@ -65,9 +72,9 @@ html {
 main#main-content {
   position: relative;
   margin-top: 0;
-  border-left: 1px solid rgba(128, 128, 128, 0.3);
-  border-right: 1px solid rgba(128, 128, 128, 0.3);
-  border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
   padding: 0 2rem 2rem;
 }
 
@@ -91,7 +98,7 @@ main#main-content pre,
 main#main-content .highlight,
 main#main-content .highlight pre,
 main#main-content .chroma {
-  background-color: #2f2b28 !important;
+  background-color: var(--code-bg) !important;
 }
 
 /* Small stubs so the vertical borders visibly cross the top line at the
@@ -103,7 +110,7 @@ main#main-content::after {
   top: -6px;
   width: 1px;
   height: 6px;
-  background: rgba(128, 128, 128, 0.3);
+  background: var(--line);
 }
 
 main#main-content::before {
@@ -112,6 +119,14 @@ main#main-content::before {
 
 main#main-content::after {
   right: -1px;
+}
+
+/* Duotone screenshots in dark mode so they match the accent instead of
+   carrying their own random colors (terminal themes, browser chrome).
+   Maps image shadows to --bg and highlights to --fg exactly, rather than
+   approximating teal with sepia()/hue-rotate() (which can drift blue). */
+html.dark main#main-content img {
+  filter: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="teal-duotone"><feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0 0 0 1 0"/><feComponentTransfer color-interpolation-filters="sRGB"><feFuncR type="table" tableValues="0.0314 0.8627"/><feFuncG type="table" tableValues="0.1804 0.9608"/><feFuncB type="table" tableValues="0.1765 0.9569"/></feComponentTransfer></filter></svg>#teal-duotone');
 }
 
 /* Site-wide Space Mono font */
