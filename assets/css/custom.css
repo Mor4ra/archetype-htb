@@ -4,6 +4,17 @@
   max-width: 100ch !important;
 }
 
+body {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0px,
+    rgba(255, 255, 255, 0.05) 1px,
+    transparent 1px,
+    transparent 10px
+  );
+  background-attachment: fixed;
+}
+
 /* Site-wide Space Mono font */
 @font-face {
   font-family: 'Space Mono';
