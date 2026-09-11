@@ -53,7 +53,7 @@ Nmap done: 1 IP address (1 host up) scanned in 25.67 seconds
 Perfoming an Nmap scan indeed shows two service open, `http` and `wsman`(this means WinRM is open and we can use it to access this windows server remotely).
 Since this is a web server, we can take a look at the web-app it hosts by visiting the IP using a browser(or `curl`).
 
-![[ResponderWebAppHome.png]]
+![Responder web app homepage](ResponderWebAppHome.png)
 
 Something interesting to note, visiting the IP on firefox redirects to `http://unika.htb` and connection fails.
 This happens because `unika.htb` isn't actually a real registered domain name so DNS resolution fails and the browser can't find an IP to connect to. To override this, we add the domain name alongside its IP in our local `/etc/hosts`, this is the file the browser checks before querying the DNS resolver.
@@ -88,7 +88,7 @@ File: /etc/hosts
 ─────┴──────────────────────────────────────────────────────────────────────
 ```
 
-![[ResponderRealHomePg.png]]
+![unika.htb homepage after /etc/hosts fix](ResponderRealHomePg.png)
 
 Now that that's out of the way, there's a question on HTB for this specific machine that needs discussion.
 
@@ -102,7 +102,7 @@ What is the name of the URL parameter which is used to load different language v
 ## *Exploitation*
 Now that we have identified our vulnerable URL parameter, it's time to trigger a file inclusion on the target.
 
-![[ResponderBadParam.png]]
+![Bad language parameter triggering inclusion](ResponderBadParam.png)
 
 First, we run the responder utility as root.
 
@@ -140,8 +140,7 @@ First, we run the responder utility as root.
 
 This automatically starts a rogue SMB server on port 445 along other listeners. Since setting up the listener is done, we can trigger the file inclusion on the target.
 
-![[ResponderFITrigger.png]]
-
+![Triggering the file inclusion](ResponderFITrigger.png)
 
 When the windows Server tries to access the path, responder prints the user's(who the web server process is running as) credentials(useraname and the NetNTLMv2 hash) on the terminal.
 
