@@ -1,6 +1,7 @@
 /* Widen the article content column */
-.prose {
-  max-width: 100ch;
+.prose,
+.max-w-prose {
+  max-width: 100ch !important;
 }
 
 /* Site-wide Space Mono font */
