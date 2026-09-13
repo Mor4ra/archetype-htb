@@ -7,14 +7,84 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>© 2026 </copyright>
-    <lastBuildDate>Thu, 10 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/archetype-htb/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 13 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/archetype-htb/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Archetype | Windows</title>
+      <link>http://localhost:1313/archetype-htb/tags/archetype--windows/</link>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/archetype-htb/tags/archetype--windows/</guid>
+      <description></description>
+      
+    </item>
     
     <item>
       <title>Conclusion</title>
       <link>http://localhost:1313/archetype-htb/tags/conclusion/</link>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
       
       <guid>http://localhost:1313/archetype-htb/tags/conclusion/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Initial Access</title>
+      <link>http://localhost:1313/archetype-htb/tags/initial-access/</link>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/archetype-htb/tags/initial-access/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Lateral Movement</title>
+      <link>http://localhost:1313/archetype-htb/tags/lateral-movement/</link>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/archetype-htb/tags/lateral-movement/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Local Enumeration</title>
+      <link>http://localhost:1313/archetype-htb/tags/local-enumeration/</link>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/archetype-htb/tags/local-enumeration/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Post Exploitation</title>
+      <link>http://localhost:1313/archetype-htb/tags/post-exploitation/</link>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/archetype-htb/tags/post-exploitation/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Privilege Escalation</title>
+      <link>http://localhost:1313/archetype-htb/tags/privilege-escalation/</link>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/archetype-htb/tags/privilege-escalation/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Reconnaissance</title>
+      <link>http://localhost:1313/archetype-htb/tags/reconnaissance/</link>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/archetype-htb/tags/reconnaissance/</guid>
       <description></description>
       
     </item>
@@ -65,16 +135,6 @@
       <pubDate>Thu, 10 Sep 2026 00:00:00 +0000</pubDate>
       
       <guid>http://localhost:1313/archetype-htb/tags/overview/</guid>
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Post-Exploitation</title>
-      <link>http://localhost:1313/archetype-htb/tags/post-exploitation/</link>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/archetype-htb/tags/post-exploitation/</guid>
       <description></description>
       
     </item>

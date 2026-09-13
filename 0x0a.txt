@@ -1,4 +1,4 @@
-.
+/home/kali/archetype-htb
 ├── 0x0a.txt
 ├── archetypes
 │   └── default.md
@@ -27,10 +27,18 @@
 │   │   ├── index.html
 │   │   └── index.xml
 │   ├── css
+│   │   ├── main.bundle.min.014c84ac544e8e6cba9743dc5352871b1462a5ab272c2f89ae91b3456d5e332c56dddf98b84106b5a11815fedaccc3273db5cac024e079dce6cbba5b2ca20dd4.css
 │   │   ├── main.bundle.min.25338ee2a633c72ab395ffa6baadece5d8224af5a2e02628d1411c3ed00f3d22c6555f67a6848c9975e2853566c6844ba0b68807f7b96a89a039dc54706e710d.css
+│   │   ├── main.bundle.min.28d8ac378cf59f38f04073fb6cfd6b66e6bd6ecf18898f712667a135018032de1e63b1c744e4f460eeb470f5d690de86c5c92a6f1685ff20acf942d0cdf358a4.css
+│   │   ├── main.bundle.min.40a9bacb3140a0d04bfa6292513ae7535660ad1f56afa3fa76c6cb6ddd4bf0fbcbf6eb7b32b9ba3f37494ea24b3e4b06c40d607a3f4f844d0ba64c092bd8904d.css
+│   │   ├── main.bundle.min.62f4ecc1e98cb44e29e18544f5cc3e56e3bff28420ead49c7f47d0f45abe2b0e03fa1aa5d86097cbf44ed1fdf0a3296440db68fb2def7f57c657e9d0c4d19742.css
 │   │   ├── main.bundle.min.79acd8aa2e82f8ce0e5b44727ec15f8ab19d5b03eeb5207f029f08f4e2a914fed5c4c978a936ad8a30eec43e423207c6f812410790da2f89f738c96fa87b5cbc.css
 │   │   ├── main.bundle.min.82a087604a49eb461ba1280963c868bbf86a80ea3e64eb3ae4935d62607667bad64710066eb2c5cd9b2d48efbd3380640023eabd4c813e4b2e1bc282e1f8f875.css
-│   │   └── main.bundle.min.83f6a01d363f677b5daf9cb4a671c69f4c270b3cd3f8048310b43dd0b9a6a009c932c03f7011bf2f8c2fa58db4e42ee25d1e471ebc84564dead2c6efd96916e1.css
+│   │   ├── main.bundle.min.83f6a01d363f677b5daf9cb4a671c69f4c270b3cd3f8048310b43dd0b9a6a009c932c03f7011bf2f8c2fa58db4e42ee25d1e471ebc84564dead2c6efd96916e1.css
+│   │   ├── main.bundle.min.9ebe010cd18492d7cc6b73df175a0774d95efddc41244aac0493fe4224fa23c51fe9368afbc62c3a88c70dc1626d89347fbc25206cf55b1b68411647ae2881d7.css
+│   │   ├── main.bundle.min.a4ddcbdccbdbf90517dc3b1a57008a27100b41415477b13b478777172f66308e1349b34509d7c7074bd92671e3e68480e99fa7905b8cd728037faad8d83259db.css
+│   │   ├── main.bundle.min.a5fcdf584c4759811a4d4ef88924e302462c5503b36307d6c966ddfaa33a8739f0ddd4098cf3587588c79203d85ed37aa85919cfb208962c301c2113f6c4629b.css
+│   │   └── main.bundle.min.ae21415e03391c43ac241e0c7c222a71786d48f2b7ed35b7076d0cb2ed0285d14e56b063f7b5788aa085e37298c302557d251930a0a9ab191c218ff1e3601b65.css
 │   ├── favicon-16x16.png
 │   ├── favicon-32x32.png
 │   ├── favicon.ico
@@ -2810,4 +2818,4 @@
         ├── theme.toml
         └── update-github-data.sh
 
-307 directories, 2504 files
+307 directories, 2512 files
